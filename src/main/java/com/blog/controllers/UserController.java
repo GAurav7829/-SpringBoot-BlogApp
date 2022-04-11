@@ -26,7 +26,7 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@PostMapping("/")
+	@PostMapping({"", "/"})
 	public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto){
 		UserDto createdUserDto = this.userService.createUser(userDto);
 		return new ResponseEntity<>(createdUserDto, HttpStatus.CREATED);
@@ -44,7 +44,7 @@ public class UserController {
 		return new ResponseEntity<>(new ApiResponse("User Deleted Successfully", true), HttpStatus.OK);
 	}
 	
-	@GetMapping("/")
+	@GetMapping({"", "/"})
 	public ResponseEntity<List<UserDto>> getAllUsers(){
 		return ResponseEntity.ok(this.userService.getAllUsers());
 	}
