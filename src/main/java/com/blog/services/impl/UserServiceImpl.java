@@ -11,7 +11,7 @@ import com.blog.entities.User;
 import com.blog.payloads.UserDto;
 import com.blog.repositories.UserRepository;
 import com.blog.services.UserService;
-import com.blog.utils.AppUtils;
+import com.blog.utils.CommonMethodsUtils;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserDto updateUser(UserDto userDto, Integer userId) {
 		User user = this.userRepository.findById(userId)
-				.orElseThrow(AppUtils.resourceNotFound("User", "id", userId));
+				.orElseThrow(CommonMethodsUtils.resourceNotFound("User", "id", userId));
 		
 		user.setName(userDto.getName());
 		user.setEmail(userDto.getEmail());
@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserDto getUserById(Integer userId) {
 		User user = this.userRepository.findById(userId)
-				.orElseThrow(AppUtils.resourceNotFound("User", "id", userId));
+				.orElseThrow(CommonMethodsUtils.resourceNotFound("User", "id", userId));
 		
 		return this.userToDto(user);
 	}
@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void deleteUser(Integer userId) {
 		User user = this.userRepository.findById(userId)
-			.orElseThrow(AppUtils.resourceNotFound("User", "id", userId));
+			.orElseThrow(CommonMethodsUtils.resourceNotFound("User", "id", userId));
 		this.userRepository.delete(user);
 	}
 	
