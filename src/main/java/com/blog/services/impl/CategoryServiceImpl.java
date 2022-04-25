@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.blog.entities.Category;
-import com.blog.exceptions.ResourceNotFoundException;
 import com.blog.payloads.CategoryDto;
 import com.blog.repositories.CategoryRepository;
 import com.blog.services.CategoryService;
+import com.blog.utils.AppUtils;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -30,7 +30,7 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public CategoryDto updateCategory(CategoryDto categoryDto, Integer categoryId) {
 		Category category = this.categoryRepository.findById(categoryId)
-				.orElseThrow(()->new ResourceNotFoundException("Category", "CategoryId", categoryId));
+				.orElseThrow(AppUtils.resourceNotFound("Category", "CategoryId", categoryId));
 		category.setCategoryTitle(categoryDto.getCategoryTitle());
 		category.setCategoryDescription(categoryDto.getCategoryDescription());
 		
@@ -42,14 +42,14 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public void deleteCategory(Integer categoryId) {
 		Category category = this.categoryRepository.findById(categoryId)
-				.orElseThrow(()->new ResourceNotFoundException("Category", "CategoryId", categoryId));
+				.orElseThrow(AppUtils.resourceNotFound("Category", "CategoryId", categoryId));
 		this.categoryRepository.delete(category);
 	}
 
 	@Override
 	public CategoryDto getCategory(Integer categoryId) {
 		Category category = this.categoryRepository.findById(categoryId)
-				.orElseThrow(()->new ResourceNotFoundException("Category", "CategoryId", categoryId));
+				.orElseThrow(AppUtils.resourceNotFound("Category", "CategoryId", categoryId));
 		return this.modelMapper.map(category, CategoryDto.class);
 	}
 

@@ -13,6 +13,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.blog.config.AppConstants;
 import com.blog.payloads.ApiResponse;
 
 @RestControllerAdvice	//make exception handler for rest controllers
@@ -39,7 +40,7 @@ public class GlobalExceptionHandler {
 	
 	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
 	public ResponseEntity<ApiResponse> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException ex){
-		ApiResponse apiResponse = new ApiResponse("Method Not Supported", false);
+		ApiResponse apiResponse = new ApiResponse(AppConstants.METHOD_NOT_SUPPORTED, false);
 		return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.METHOD_NOT_ALLOWED);
 	}
 	
