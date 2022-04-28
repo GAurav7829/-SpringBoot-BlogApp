@@ -1,5 +1,6 @@
 package com.blog.exceptions;
 
+import java.io.IOException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.HashMap;
 import java.util.Map;
@@ -56,4 +57,10 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.BAD_REQUEST);
 	}
 	
+	@ExceptionHandler(IOException.class)
+	public ResponseEntity<ApiResponse> handleIOException(IOException ex){
+		ApiResponse apiResponse = new ApiResponse(ex.getMessage(), false);
+		return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+		
 }
