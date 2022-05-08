@@ -9,4 +9,5 @@ public class AppConstants {
 	public static final String CATEGORY_DELETE_MESSAGE = "Category Deleted Successfully";
 	public static final String USER_DELETE_MESSAGE = "User Deleted Successfully";
 	public static final String METHOD_NOT_SUPPORTED = "Method Not Supported";
+	public static final String COMMENT_DELETE_MESSAGE = "Comment Deleted Successfully";
 }
