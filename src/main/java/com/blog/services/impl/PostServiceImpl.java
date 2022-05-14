@@ -36,9 +36,9 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public PostDto createPost(PostDto postDto, Integer userId, Integer categoryId) {
 		User user = this.userRepository.findById(userId)
-				.orElseThrow(CommonMethodsUtils.resourceNotFound("User", "id", userId));
+				.orElseThrow(CommonMethodsUtils.resourceNotFound("User", "id", userId.toString()));
 		Category category = this.categoryRepository.findById(categoryId)
-				.orElseThrow(CommonMethodsUtils.resourceNotFound("Category", "CategoryId", categoryId));
+				.orElseThrow(CommonMethodsUtils.resourceNotFound("Category", "CategoryId", categoryId.toString()));
 		
 		
 		Post post = this.modelMapper.map(postDto, Post.class);
@@ -55,7 +55,7 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public PostDto updatePost(PostDto postDto, Integer postId) {
 		Post post = this.postRepository.findById(postId)
-				.orElseThrow(CommonMethodsUtils.resourceNotFound("Post", "PostId", postId));
+				.orElseThrow(CommonMethodsUtils.resourceNotFound("Post", "PostId", postId.toString()));
 		post.setTitle(postDto.getTitle());
 		post.setContent(postDto.getContent());
 		post.setImageName(postDto.getImageName());
@@ -68,7 +68,7 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public void deletePost(Integer postId) {
 		Post post = this.postRepository.findById(postId)
-				.orElseThrow(CommonMethodsUtils.resourceNotFound("Post", "PostId", postId));
+				.orElseThrow(CommonMethodsUtils.resourceNotFound("Post", "PostId", postId.toString()));
 		this.postRepository.delete(post);
 	}
 
@@ -98,14 +98,14 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public PostDto getPostById(Integer postId) {
 		Post post = this.postRepository.findById(postId)
-				.orElseThrow(CommonMethodsUtils.resourceNotFound("Post", "PostId", postId));
+				.orElseThrow(CommonMethodsUtils.resourceNotFound("Post", "PostId", postId.toString()));
 		return this.modelMapper.map(post, PostDto.class);
 	}
 
 	@Override
 	public List<PostDto> getPostsByCategory(Integer categoryId) {
 		Category category = this.categoryRepository.findById(categoryId)
-				.orElseThrow(CommonMethodsUtils.resourceNotFound("Category", "CategoryId", categoryId));
+				.orElseThrow(CommonMethodsUtils.resourceNotFound("Category", "CategoryId", categoryId.toString()));
 		List<Post> posts = this.postRepository.findByCategory(category);
 		List<PostDto> postDtos = posts.stream().map((post)->this.modelMapper.map(post, PostDto.class)).collect(Collectors.toList());
 		return postDtos;
@@ -114,7 +114,7 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public List<PostDto> getPostsByUser(Integer userId) {
 		User user = this.userRepository.findById(userId)
-				.orElseThrow(CommonMethodsUtils.resourceNotFound("User", "id", userId));
+				.orElseThrow(CommonMethodsUtils.resourceNotFound("User", "id", userId.toString()));
 		List<Post> posts = this.postRepository.findByUser(user);
 		List<PostDto> postDtos = posts.stream().map(post->this.modelMapper.map(post, PostDto.class)).collect(Collectors.toList());
 		return postDtos;

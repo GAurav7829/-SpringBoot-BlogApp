@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -61,6 +62,12 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<ApiResponse> handleIOException(IOException ex){
 		ApiResponse apiResponse = new ApiResponse(ex.getMessage(), false);
 		return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@ExceptionHandler(BadCredentialsException.class)
+	public ResponseEntity<ApiResponse> handleBadCredentialsException(BadCredentialsException ex){
+		ApiResponse apiResponse = new ApiResponse(ex.getMessage(), false);
+		return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.UNAUTHORIZED);
 	}
 		
 }

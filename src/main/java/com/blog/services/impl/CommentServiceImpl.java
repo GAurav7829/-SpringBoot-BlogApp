@@ -23,7 +23,7 @@ public class CommentServiceImpl implements CommentService {
 	
 	@Override
 	public CommentDto createComment(CommentDto commentDto, Integer postId) {
-		Post post = this.postRepository.findById(postId).orElseThrow(CommonMethodsUtils.resourceNotFound("post", "postId", postId));
+		Post post = this.postRepository.findById(postId).orElseThrow(CommonMethodsUtils.resourceNotFound("post", "postId", postId.toString()));
 		Comment comment = this.modelMapper.map(commentDto, Comment.class);
 		comment.setPost(post);
 		Comment savedComment = this.commentRepository.save(comment);
@@ -32,7 +32,7 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public void deleteComment(Integer commentId) {
-		Comment comment = this.commentRepository.findById(commentId).orElseThrow(CommonMethodsUtils.resourceNotFound("comment", "commentId", commentId));
+		Comment comment = this.commentRepository.findById(commentId).orElseThrow(CommonMethodsUtils.resourceNotFound("comment", "commentId", commentId.toString()));
 		this.commentRepository.delete(comment);
 	}
 

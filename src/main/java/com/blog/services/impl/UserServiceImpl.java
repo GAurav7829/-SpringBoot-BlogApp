@@ -1,29 +1,43 @@
 package com.blog.services.impl;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.blog.entities.Role;
 import com.blog.entities.User;
 import com.blog.payloads.UserDto;
+import com.blog.repositories.RoleRepository;
 import com.blog.repositories.UserRepository;
 import com.blog.services.UserService;
 import com.blog.utils.CommonMethodsUtils;
 
 @Service
 public class UserServiceImpl implements UserService {
+	
 	@Autowired
 	private UserRepository userRepository;
 	
 	@Autowired
 	private ModelMapper modelMapper;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private RoleRepository roleRepository;
 
 	@Override
 	public UserDto createUser(UserDto userDto) {
 		User user = this.dtoToUser(userDto);
+		
+		Set<Role> set = userDto.getRoles().stream().map(role->this.roleRepository.save(role)).collect(Collectors.toSet());
+		userDto.setRoles(set);
 		User savedUser = this.userRepository.save(user);
 		return this.userToDto(savedUser);
 	}
@@ -31,7 +45,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserDto updateUser(UserDto userDto, Integer userId) {
 		User user = this.userRepository.findById(userId)
-				.orElseThrow(CommonMethodsUtils.resourceNotFound("User", "id", userId));
+				.orElseThrow(CommonMethodsUtils.resourceNotFound("User", "id", userId.toString()));
 		
 		user.setName(userDto.getName());
 		user.setEmail(userDto.getEmail());
@@ -48,7 +62,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserDto getUserById(Integer userId) {
 		User user = this.userRepository.findById(userId)
-				.orElseThrow(CommonMethodsUtils.resourceNotFound("User", "id", userId));
+				.orElseThrow(CommonMethodsUtils.resourceNotFound("User", "id", userId.toString()));
 		
 		return this.userToDto(user);
 	}
@@ -63,7 +77,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void deleteUser(Integer userId) {
 		User user = this.userRepository.findById(userId)
-			.orElseThrow(CommonMethodsUtils.resourceNotFound("User", "id", userId));
+			.orElseThrow(CommonMethodsUtils.resourceNotFound("User", "id", userId.toString()));
 		this.userRepository.delete(user);
 	}
 	
@@ -74,7 +88,7 @@ public class UserServiceImpl implements UserService {
 //		user.setEmail(userDto.getEmail());
 //		user.setPassword(userDto.getPassword());
 //		user.setAbout(userDto.getAbout());
-		
+		userDto.setPassword(this.passwordEncoder.encode(userDto.getPassword()));
 		User user = this.modelMapper.map(userDto, User.class);
 		
 		return user;

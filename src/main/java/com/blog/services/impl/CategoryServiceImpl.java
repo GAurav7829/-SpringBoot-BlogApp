@@ -30,7 +30,7 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public CategoryDto updateCategory(CategoryDto categoryDto, Integer categoryId) {
 		Category category = this.categoryRepository.findById(categoryId)
-				.orElseThrow(CommonMethodsUtils.resourceNotFound("Category", "CategoryId", categoryId));
+				.orElseThrow(CommonMethodsUtils.resourceNotFound("Category", "CategoryId", categoryId.toString()));
 		category.setCategoryTitle(categoryDto.getCategoryTitle());
 		category.setCategoryDescription(categoryDto.getCategoryDescription());
 		
@@ -42,14 +42,14 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public void deleteCategory(Integer categoryId) {
 		Category category = this.categoryRepository.findById(categoryId)
-				.orElseThrow(CommonMethodsUtils.resourceNotFound("Category", "CategoryId", categoryId));
+				.orElseThrow(CommonMethodsUtils.resourceNotFound("Category", "CategoryId", categoryId.toString()));
 		this.categoryRepository.delete(category);
 	}
 
 	@Override
 	public CategoryDto getCategory(Integer categoryId) {
 		Category category = this.categoryRepository.findById(categoryId)
-				.orElseThrow(CommonMethodsUtils.resourceNotFound("Category", "CategoryId", categoryId));
+				.orElseThrow(CommonMethodsUtils.resourceNotFound("Category", "CategoryId", categoryId.toString()));
 		return this.modelMapper.map(category, CategoryDto.class);
 	}
 
