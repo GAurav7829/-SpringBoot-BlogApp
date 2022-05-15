@@ -10,4 +10,6 @@ public class AppConstants {
 	public static final String USER_DELETE_MESSAGE = "User Deleted Successfully";
 	public static final String METHOD_NOT_SUPPORTED = "Method Not Supported";
 	public static final String COMMENT_DELETE_MESSAGE = "Comment Deleted Successfully";
+	public static final Integer ROLE_USER = 501;
+	public static final Integer ROLE_ADMIN = 502;
 }

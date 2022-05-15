@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.blog.payloads.JwtAuthRequest;
 import com.blog.payloads.JwtAuthResponse;
+import com.blog.payloads.UserDto;
 import com.blog.security.JwtTokenHelper;
+import com.blog.services.UserService;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -25,6 +27,8 @@ public class AuthController {
 	private UserDetailsService userDetailsService;
 	@Autowired
 	private AuthenticationManager authenticationManager;
+	@Autowired
+	private UserService userService;
 	
 	@PostMapping("/login")
 	public ResponseEntity<JwtAuthResponse> createToken(@RequestBody JwtAuthRequest request){
@@ -38,7 +42,11 @@ public class AuthController {
 	private void authenticate(String username, String password) {
 		UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(username, password);
 		this.authenticationManager.authenticate(usernamePasswordAuthenticationToken);
-		
 	}
 	
+	@PostMapping("/register")
+	public ResponseEntity<UserDto> registerNewUser(@RequestBody UserDto userDto){
+		UserDto newUser = this.userService.registerNewUser(userDto);
+		return new ResponseEntity<UserDto>(newUser, HttpStatus.CREATED);
+	}
 }

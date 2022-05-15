@@ -1,12 +1,13 @@
 package com.blog.payloads;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
-import com.blog.entities.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,9 +25,10 @@ public class UserDto {
 	private String email;
 	@NotEmpty
 	@Size(min = 3, max = 10, message = "Password must be minimum of 3 characters and max of 10 characters")
+	@JsonIgnore
 	private String password;
 	@NotEmpty
 	private String about;
 	
-	private Set<Role> roles;
+	private Set<RoleDto> roles = new HashSet<>();
 }
