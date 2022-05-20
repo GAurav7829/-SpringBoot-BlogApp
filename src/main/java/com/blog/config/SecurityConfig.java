@@ -23,6 +23,16 @@ import com.blog.security.JwtAuthenticationFilter;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)	//for user based authentication
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+	
+	private static final String[] PUBLIC_URLS = {
+			"/api/v1/auth/**",
+			"/v3/api-docs",	//swagger
+			"/v2/api-docs",
+			"/swagger-resources/**",
+			"/swagger-ui/**",
+			"/webjars/**"
+	};
+	
 	@Autowired
 	private CustomUserDetailService customUserDetailService;
 	@Autowired
@@ -37,7 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.disable()
 			.authorizeRequests()
 			//allow login url
-			.antMatchers("/api/v1/auth/**").permitAll()
+			.antMatchers(PUBLIC_URLS).permitAll()
 			.antMatchers(HttpMethod.GET).permitAll()	//fetch All GET api without authorization
 			.anyRequest()
 			.authenticated()

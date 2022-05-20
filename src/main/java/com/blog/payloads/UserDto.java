@@ -25,7 +25,6 @@ public class UserDto {
 	private String email;
 	@NotEmpty
 	@Size(min = 3, max = 10, message = "Password must be minimum of 3 characters and max of 10 characters")
-	@JsonIgnore
 	private String password;
 	@NotEmpty
 	private String about;
